@@ -76,5 +76,20 @@ public class UserServiceImpl implements UserService, UserDetailsService
         return userRepo.findAll();
     }
 
+    @Override
+    public void deleteUser(AppUser user) {
+        log.info("removing user {} ",user.getName());
+        userRepo.delete(user);
+    }
+
+    @Override
+    public void deleteRole(Role role) {
+        log.info("removing role {} ",role.getName());
+        userRepo.findAll().forEach(appUser -> {
+            appUser.getRoles().remove(role);
+        });
+        roleRepo.delete(role);
+    }
+
 
 }
